@@ -7,7 +7,7 @@ import AddNoteForm from "./components/AddNoteForm/AddNoteForm";
 import NotesList from "./components/NotesList/NotesList";
 
 function App() {
-  const [notes] = useState([
+  const [notes, setNotes] = useState([
     {
       id: 1,
       title: "Learn React",
@@ -18,12 +18,17 @@ function App() {
       title: "Portfolio",
       content: "Finish all 10 engineering projects.",
     },
-    {
-      id: 3,
-      title: "Gym",
-      content: "Leg day at 6 PM.",
-    },
   ]);
+
+  function addNote(newNote) {
+    setNotes((prevNotes) => [
+      {
+        id: Date.now(),
+        ...newNote,
+      },
+      ...prevNotes,
+    ]);
+  }
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-10">
@@ -38,7 +43,7 @@ function App() {
       </section>
 
       <section className="mb-8">
-        <AddNoteForm />
+        <AddNoteForm onAddNote={addNote} />
       </section>
 
       <NotesList notes={notes} />
