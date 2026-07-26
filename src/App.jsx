@@ -30,6 +30,10 @@ function App() {
     ]);
   }
 
+  function deleteNote(id) {
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  }
+
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-10">
       <Header />
@@ -46,7 +50,7 @@ function App() {
         <AddNoteForm onAddNote={addNote} />
       </section>
 
-      <NotesList notes={notes} />
+      <NotesList notes={notes} onDeleteNote={deleteNote} />
     </main>
   );
 }
