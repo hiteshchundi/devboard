@@ -1,23 +1,40 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const INITIAL_FORM = {
+  title: "",
+  content: "",
+};
 
 function AddNoteForm({ onAddNote, editingNote, onUpdateNote }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [form, setForm] = useState(INITIAL_FORM);
 
   useEffect(() => {
-    if (editingNote) {
-      setTitle(editingNote.title);
-      setContent(editingNote.content);
-    } else {
-      setTitle("");
-      setContent("");
-    }
+    setForm(
+      editingNote
+        ? {
+            title: editingNote.title,
+            content: editingNote.content,
+          }
+        : INITIAL_FORM,
+    );
   }, [editingNote]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!title.trim() || !content.trim()) return;
+    const title = form.title.trim();
+    const content = form.content.trim();
+
+    if (!title || !content) return;
 
     if (editingNote) {
       onUpdateNote({
@@ -32,32 +49,34 @@ function AddNoteForm({ onAddNote, editingNote, onUpdateNote }) {
       });
     }
 
-    setTitle("");
-    setContent("");
+    setForm(INITIAL_FORM);
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <input
         type="text"
+        name="title"
+        autoComplete="off"
         placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={form.title}
+        onChange={handleChange}
         className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 outline-none transition focus:border-transparent focus:ring-2 focus:ring-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
       />
 
       <textarea
+        name="content"
         rows="5"
         placeholder="Write your note..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        value={form.content}
+        onChange={handleChange}
         className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 outline-none transition focus:border-transparent focus:ring-2 focus:ring-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
       />
 
       <button
-        disabled={!title.trim() || !content.trim()}
         type="submit"
-        className="rounded-lg bg-gray-900 px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900"
+        disabled={!form.title.trim() || !form.content.trim()}
+        className="rounded-lg bg-gray-900 px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
       >
         {editingNote ? "Update Note" : "Add Note"}
       </button>
