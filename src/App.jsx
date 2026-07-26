@@ -6,7 +6,7 @@ import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 import AddNoteForm from "./components/AddNoteForm/AddNoteForm";
 import NotesList from "./components/NotesList/NotesList";
 import useDarkMode from "./hooks/useDarkMode";
-import "./index.css";
+// import "./index.css";
 
 function App() {
   const [notes, setNotes] = useLocalStorage("notes", [
@@ -59,28 +59,32 @@ function App() {
   });
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl bg-gray-50 px-6 py-10 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
-      {" "}
-      <Header />
-      <section className="mb-6 flex gap-4">
-        <div className="flex-1">
-          <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
-        </div>
-        <ThemeToggle theme={theme} onToggle={toggleTheme} />{" "}
-      </section>
-      <section className="mb-8">
-        <AddNoteForm
-          onAddNote={addNote}
-          editingNote={editingNote}
-          onUpdateNote={updateNote}
+    <div>
+      <main className="mx-auto min-h-screen max-w-4xl bg-gray-50 px-6 py-12 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+        <Header />
+        <section className="mb-6 flex gap-4">
+          <div className="flex-1">
+            <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
+          </div>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </section>
+        <section className="mb-8">
+          <AddNoteForm
+            onAddNote={addNote}
+            editingNote={editingNote}
+            onUpdateNote={updateNote}
+          />
+        </section>
+        <NotesList
+          notes={filteredNotes}
+          onDeleteNote={deleteNote}
+          onEditNote={setEditingNote}
         />
-      </section>
-      <NotesList
-        notes={filteredNotes}
-        onDeleteNote={deleteNote}
-        onEditNote={setEditingNote}
-      />
-    </main>
+        <footer className="mt-12 border-t pt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          Built with React & Tailwind CSS
+        </footer>
+      </main>
+    </div>
   );
 }
 
