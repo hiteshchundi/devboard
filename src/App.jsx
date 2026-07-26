@@ -20,6 +20,8 @@ function App() {
     },
   ]);
 
+  const [editingNote, setEditingNote] = useState(null);
+
   function addNote(newNote) {
     setNotes((prevNotes) => [
       {
@@ -32,6 +34,16 @@ function App() {
 
   function deleteNote(id) {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  }
+
+  function updateNote(updatedNote) {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === updatedNote.id ? updatedNote : note,
+      ),
+    );
+
+    setEditingNote(null);
   }
 
   return (
@@ -47,10 +59,18 @@ function App() {
       </section>
 
       <section className="mb-8">
-        <AddNoteForm onAddNote={addNote} />
+        <AddNoteForm
+          onAddNote={addNote}
+          editingNote={editingNote}
+          onUpdateNote={updateNote}
+        />
       </section>
 
-      <NotesList notes={notes} onDeleteNote={deleteNote} />
+      <NotesList
+        notes={notes}
+        onDeleteNote={deleteNote}
+        onEditNote={setEditingNote}
+      />
     </main>
   );
 }

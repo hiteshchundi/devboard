@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function AddNoteForm({ onAddNote }) {
+function AddNoteForm({ onAddNote, editingNote, onUpdateNote }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (editingNote) {
+      setTitle(editingNote.title);
+      setContent(editingNote.content);
+    } else {
+      setTitle("");
+      setContent("");
+    }
+  }, [editingNote]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) return;
 
-    onAddNote({
-      title,
-      content,
-    });
+    if (editingNote) {
+      onUpdateNote({
+        ...editingNote,
+        title,
+        content,
+      });
+    } else {
+      onAddNote({
+        title,
+        content,
+      });
+    }
 
     setTitle("");
     setContent("");
@@ -40,7 +58,7 @@ function AddNoteForm({ onAddNote }) {
         type="submit"
         className="rounded-lg bg-black px-5 py-2 text-white"
       >
-        Add Note
+        {editingNote ? "Update Note" : "Add Note"}
       </button>
     </form>
   );
