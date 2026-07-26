@@ -5,6 +5,8 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 import AddNoteForm from "./components/AddNoteForm/AddNoteForm";
 import NotesList from "./components/NotesList/NotesList";
+import useDarkMode from "./hooks/useDarkMode";
+import "./index.css";
 
 function App() {
   const [notes, setNotes] = useState([
@@ -22,6 +24,7 @@ function App() {
 
   const [editingNote, setEditingNote] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { theme, toggleTheme } = useDarkMode();
 
   function addNote(newNote) {
     setNotes((prevNotes) => [
@@ -57,17 +60,15 @@ function App() {
   });
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-10">
+    <main className="mx-auto min-h-screen max-w-3xl bg-gray-50 px-6 py-10 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+      {" "}
       <Header />
-
       <section className="mb-6 flex gap-4">
         <div className="flex-1">
           <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
         </div>
-
-        <ThemeToggle />
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />{" "}
       </section>
-
       <section className="mb-8">
         <AddNoteForm
           onAddNote={addNote}
@@ -75,7 +76,6 @@ function App() {
           onUpdateNote={updateNote}
         />
       </section>
-
       <NotesList
         notes={filteredNotes}
         onDeleteNote={deleteNote}

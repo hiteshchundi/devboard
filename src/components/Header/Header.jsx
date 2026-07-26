@@ -1,9 +1,11 @@
 function Header() {
   return (
-    <header className="text-center mb-8">
+    <header className="mb-8 text-center">
       <h1 className="text-4xl font-bold">DevBoard</h1>
 
-      <p className="text-gray-500 mt-2">Organize your thoughts.</p>
+      <p className="mt-2 text-gray-600 dark:text-gray-400">
+        Organize your thoughts.
+      </p>
     </header>
   );
 }

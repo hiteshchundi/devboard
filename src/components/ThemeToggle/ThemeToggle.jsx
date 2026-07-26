@@ -1,9 +1,12 @@
-import { Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
-function ThemeToggle() {
+function ThemeToggle({ theme, onToggle }) {
   return (
-    <button className="rounded-lg border p-2">
-      <Moon size={18} />
+    <button
+      onClick={onToggle}
+      className="rounded-lg border border-gray-300 bg-white p-2 transition hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+    >
+      {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
 }
