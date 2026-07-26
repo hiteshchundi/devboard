@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import useLocalStorage from "./hooks/useLocalStorage";
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
@@ -9,7 +9,7 @@ import useDarkMode from "./hooks/useDarkMode";
 import "./index.css";
 
 function App() {
-  const [notes, setNotes] = useState([
+  const [notes, setNotes] = useLocalStorage("notes", [
     {
       id: 1,
       title: "Learn React",
@@ -21,7 +21,6 @@ function App() {
       content: "Finish all 10 engineering projects.",
     },
   ]);
-
   const [editingNote, setEditingNote] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { theme, toggleTheme } = useDarkMode();
