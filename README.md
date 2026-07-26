@@ -32,7 +32,7 @@ https://devboard-umber.vercel.app/
 Clone the repository:
 
 ```bash
-git clone <your-github-repository-url>
+git clone https://github.com/hiteshchundi/devboard.git
 ```
 
 Navigate to the project:
