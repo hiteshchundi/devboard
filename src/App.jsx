@@ -21,6 +21,7 @@ function App() {
   ]);
 
   const [editingNote, setEditingNote] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   function addNote(newNote) {
     setNotes((prevNotes) => [
@@ -46,13 +47,22 @@ function App() {
     setEditingNote(null);
   }
 
+  const filteredNotes = notes.filter((note) => {
+    const query = searchTerm.toLowerCase();
+
+    return (
+      note.title.toLowerCase().includes(query) ||
+      note.content.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-10">
       <Header />
 
       <section className="mb-6 flex gap-4">
         <div className="flex-1">
-          <SearchBar />
+          <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
         </div>
 
         <ThemeToggle />
@@ -67,7 +77,7 @@ function App() {
       </section>
 
       <NotesList
-        notes={notes}
+        notes={filteredNotes}
         onDeleteNote={deleteNote}
         onEditNote={setEditingNote}
       />
